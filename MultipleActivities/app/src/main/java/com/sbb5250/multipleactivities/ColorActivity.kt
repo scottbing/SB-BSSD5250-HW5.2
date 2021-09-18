@@ -38,10 +38,12 @@ class ColorActivity : AppCompatActivity() {
                     //You can pull out and cas the data
                     text = dataSent.getStringExtra(COLOR_REQUESTED_01)
                     text = dataSent.getStringExtra(COLOR_REQUESTED_02)
+                    text = dataSent.getStringExtra(COLOR_REQUESTED_03)
                 }
                 val passableData = Intent().apply {
-                    putExtra(MainActivity.COLOR_RESULT_01, "Exit")
-                    putExtra(MainActivity.COLOR_RESULT_02, "Exit")
+                    putExtra(MainActivity.COLOR_RESULT_01, "C1 Exit")
+                    putExtra(MainActivity.COLOR_RESULT_02, "C2 Exit")
+                    putExtra(MainActivity.COLOR_RESULT_03, "C3 Exit")
                 }
                 setResult(RESULT_OK, passableData)
                 finish()
@@ -102,6 +104,33 @@ class ColorActivity : AppCompatActivity() {
             }
         }
 
+        val color3 = View(this).apply{
+
+            // from: https://stackoverflow.com/questions/35780980/getting-the-actual-screen-height-android/45158798
+            val height: Int = Resources.getSystem().getDisplayMetrics().heightPixels/3
+
+            layoutParams = LinearLayoutCompat.LayoutParams(
+                LinearLayoutCompat.LayoutParams.MATCH_PARENT,
+                height)
+
+            try {
+                col3 = Color.parseColor(intent.getStringExtra(COLOR_REQUESTED_03))
+                setBackgroundColor(col3)
+            }catch(e:NumberFormatException){
+                setBackgroundColor(Color.WHITE)
+                col3 = 0
+            }
+
+            setOnClickListener {
+                col3 += 10
+                it.setBackgroundColor(col3)
+                Log.i("Color03: HEXVal", "%X".format(col3))
+                var hexVal = "%X".format(col3)
+                hexVal = hexVal.subSequence(2,hexVal.length).toString()
+                Log.i("Color03: HEXVal", hexVal)
+            }
+        }
+
         // Create a ConstraintLayout in which to add the ImageView
         var linearLayout = LinearLayoutCompat(this).apply {
             setBackgroundColor(Color.BLUE)
@@ -114,6 +143,7 @@ class ColorActivity : AppCompatActivity() {
             // Add the ImageView to the layout.
             addView(color1)
             addView(color2)
+            addView(color3)
         }
 
 

@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
                 // Handle the Intent
                 Log.i("MACTResult1", intent?.getStringExtra(COLOR_RESULT_01).toString())
                 Log.i("MACTResult2", intent?.getStringExtra(COLOR_RESULT_02).toString())
+                Log.i("MACTResult3", intent?.getStringExtra(COLOR_RESULT_03).toString())
             }
         }
 
@@ -44,12 +45,17 @@ class MainActivity : AppCompatActivity() {
             hint = "Color2: Enter Hex Color without #"
         }
 
+        val color3 = EditText(this).apply {
+            hint = "Color3: Enter Hex Color without #"
+        }
+
         val submitButton = Button(this).apply {
             "Submit".also { text = it }
             setOnClickListener {
                 val passableData = Intent(applicationContext, ColorActivity::class.java).apply {
                     putExtra(ColorActivity.COLOR_REQUESTED_01, "#"+color1.text.toString())
-                    putExtra(ColorActivity.COLOR_REQUESTED_02, "#"+color1.text.toString())
+                    putExtra(ColorActivity.COLOR_REQUESTED_02, "#"+color2.text.toString())
+                    putExtra(ColorActivity.COLOR_REQUESTED_03, "#"+color3.text.toString())
                 }
                 startForResult.launch(passableData)
             }
@@ -62,12 +68,13 @@ class MainActivity : AppCompatActivity() {
             orientation = LinearLayoutCompat.VERTICAL
             addView(color1)
             addView(color2)
+            addView(color3)
             addView(submitButton)
         }
 
         //look up the main layout by the id we just gave it
         findViewById<ConstraintLayout>(R.id.main_layout).apply {
-            setBackgroundColor(Color.GREEN)
+            setBackgroundColor(Color.YELLOW)
             addView(linearLayout)
         }
     }
