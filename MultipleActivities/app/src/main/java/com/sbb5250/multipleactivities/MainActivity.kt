@@ -16,7 +16,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 class MainActivity : AppCompatActivity() {
 
     companion object{
-        const val COLOR_RESULT:String = "com.sbb5250.multipleactivities.COLOR_RESULT"
+        const val COLOR_RESULT_01:String = "com.sbb5250.multipleactivities.COLOR_RESULT_01"
+        const val COLOR_RESULT_02:String = "com.sbb5250.multipleactivities.COLOR_RESULT_02"
+        const val COLOR_RESULT_03:String = "com.sbb5250.multipleactivities.COLOR_RESULT_03"
     }
 
     private val startForResult =
@@ -25,7 +27,8 @@ class MainActivity : AppCompatActivity() {
             if (result.resultCode == Activity.RESULT_OK) {
                 val intent = result.data
                 // Handle the Intent
-                Log.i("MACTResult", intent?.getStringExtra(COLOR_RESULT).toString())
+                Log.i("MACTResult1", intent?.getStringExtra(COLOR_RESULT_01).toString())
+                Log.i("MACTResult2", intent?.getStringExtra(COLOR_RESULT_02).toString())
             }
         }
 
@@ -34,14 +37,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val color1 = EditText(this).apply {
-            hint = "Enter Hex Color without #"
+            hint = "Color1: Enter Hex Color without #"
+        }
+
+        val color2 = EditText(this).apply {
+            hint = "Color2: Enter Hex Color without #"
         }
 
         val submitButton = Button(this).apply {
             "Submit".also { text = it }
             setOnClickListener {
                 val passableData = Intent(applicationContext, ColorActivity::class.java).apply {
-                    putExtra(ColorActivity.COLOR_REQUESTED, "#"+color1.text.toString())
+                    putExtra(ColorActivity.COLOR_REQUESTED_01, "#"+color1.text.toString())
+                    putExtra(ColorActivity.COLOR_REQUESTED_02, "#"+color1.text.toString())
                 }
                 startForResult.launch(passableData)
             }
@@ -53,6 +61,7 @@ class MainActivity : AppCompatActivity() {
                 LinearLayoutCompat.LayoutParams.MATCH_PARENT)
             orientation = LinearLayoutCompat.VERTICAL
             addView(color1)
+            addView(color2)
             addView(submitButton)
         }
 
